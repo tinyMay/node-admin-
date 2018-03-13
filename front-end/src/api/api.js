@@ -14,6 +14,8 @@ module.exports = {
     userAutoLogin: baseUrl + '/user/auto-login',
     userChangeRole: baseUrl + '/user/change-role',
 	
+    userRegister: baseUrl + '/user/register',
+    
 	
 	
  // member

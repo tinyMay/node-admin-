@@ -25,6 +25,7 @@ router.post(api.userDeleteMulti, user.deleteMulti);
 router.post(api.userLogin, user.login); // 登录
 router.post(api.userChangeRole, user.controlVisit, user.changeRole); // 更改权限
 
+router.post(api.userRegister, user.register); // 登录
 
 
 

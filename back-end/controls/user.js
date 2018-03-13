@@ -3,14 +3,10 @@ let moment = require('moment');
 let bcrypt = require('bcryptjs');
 let func = require('../sql/func');
 let mysql = require('mysql');
-
-
-
 function formatData(rows) {
 	return rows.map(row => {
 		let date = moment(row.create_time).format('YYYY-MM-DD');
 		let obj = {};
-
 		switch (row.role) {
 			case 1:
 				obj.role = '普通用户';
@@ -21,25 +17,19 @@ function formatData(rows) {
 			case 100:
 				obj.role = '超级管理员';
 		}
-
 		delete row.password;
-
 		return Object.assign({}, row, {
 			create_time: date
 		}, obj);
 	});
 }
-
-
 module.exports = {
-
 	fetchAll(req, res) {
 		
 		 let cur_page =req.body.cur_page;
 		  let sql, arr ,endLimit ,startLimit;
 		
 		
-
 	
 				 endLimit = cur_page *10;
 			 startLimit =  endLimit -10;
@@ -58,26 +48,19 @@ module.exports = {
 				msg: 'ok',
 				resultList: rows
 			});
-
 		});
 		
 		
-
-
 	
 	},
-
 	// 添加用户
 	addOne(req, res) {
 		let name = req.body.name;
 		let pass = req.body.pass;
 		let role = req.body.role;
-
 		
-
 		let sql = 'INSERT INTO user(user_name, password,role) VALUES(?,?,?)';
 		let arr = [name, pass, role];
-
 		
 		
 		func.connPool(sql, arr, (err, rows) => {
@@ -85,74 +68,42 @@ module.exports = {
 				code: 200,
 				msg: 'done'
 			});
-
 		});
 		
 		
 	
 		
 	},
-
-
-
 	// 删除用户
-
 	deleteOne(req, res) {
-
 		let id = req.body.id;
-
 		var sql = 'DELETE  from user WHERE id =? ' ;
 		
 		let arr = [id];
-
 		func.connPool(sql, arr, (err, rows) => {
 			res.json({
 				code: 200,
 				msg: 'done'
 			});
 		});
-
 	},
-
-
-
-
-
 	// 批量删除
-
 		deleteMulti(req, res) {
 		let id = req.body.id;
-
 		let sql = 'DELETE  from user WHERE id in ?';
 		let arr = [[id]];
-
 		func.connPool(sql, arr, (err, rows) => {
 			res.json({
 				code: 200,
 				msg: 'done'
 			});
 		});
-
-
-
 	},
-
 	
-	
-	
-	
-	
-	
-	
-	
-
 	// 登录
 	login(req, res) {
-
-
 		let user_name = req.body.user_name;
 		let password = req.body.password;
-
 		console.log("user_name", user_name)
 		
 			let sql = 'select * from user WHERE user_name = ? ';
@@ -161,44 +112,38 @@ module.exports = {
 		
 			func.connPool(sql, arr, (err, rows) => {
 				if (!rows.length) {
-
 					res.json({
 						code: 400,
 						msg: '用户名不存在'
 					});
 					return;
 				}
-
-
 				let pass = rows[0].password;
-
-
-				let user = {
-					user_id: rows[0].id,
-					user_name: rows[0].user_name,
-					role: rows[0].role,
-				};
-
-				req.session.login = user;
-
-				res.json({
-					code: 200,
-					msg: '登录成功',
-					user: user
-				});
-
-
+				if(password == pass) {
+					let user = {
+						user_id: rows[0].id,
+						user_name: rows[0].user_name,
+						role: rows[0].role,
+					};
+					req.session.login = user;
+					res.json({
+						code: 200,
+						msg: '登录成功',
+						user: user
+					});
+				} else {
+					res.json({
+						code: 400,
+						msg: '密码错误',
+						user: user
+					});
+				}
 		});
 		
 		
 		
 		
-
-
-
 	},
-
-
 	// 自动登录
 	autoLogin(req, res) {
 		let user = req.session.login;
@@ -208,7 +153,6 @@ module.exports = {
 				msg: '自动登录',
 				user: user
 			});
-
 		} else {
 			res.json({
 				code: 400,
@@ -216,17 +160,14 @@ module.exports = {
 			});
 		}
 	},
-
 	// 注销
 	logout(req, res) {
 		req.session.login = null;
-
 		res.json({
 			code: 200,
 			msg: '注销'
 		});
 	},
-
 	// 权限控制
 	controlVisit(req, res, next) {
 		if (req.session.login.role && req.session.login.role < 10) {
@@ -236,15 +177,12 @@ module.exports = {
 			});
 			return;
 		}
-
 		next();
 	},
-
 	// 权限变更
 	changeRole(req, res) {
 		let role = req.session.login.role;
 		let change_role = req.body.change_role;
-
 		if (role !== 100 && change_role === 100) {
 			res.json({
 				code: 400,
@@ -252,12 +190,9 @@ module.exports = {
 			});
 			return;
 		}
-
 		let user_id = req.body.id;	
-
 		let sql = 'UPDATE user SET role= ? WHERE id =?';
 		let arr = [change_role,user_id];
-
 		func.connPool(sql, arr, (err, rows) => {
 			if (rows.affectedRows) {
 					res.json({
@@ -266,18 +201,66 @@ module.exports = {
 					});
 				}
 		});
-
 		
 	},
 	
 	
+	// 注册
+	register(req, res) {
+		let user_name = req.body.user_name;
+		let password = req.body.password;
+		console.log("user_name", user_name)
+		
+		let sqlI = 'insert into user (user_name, password) VALUES (?, ?)';
+	
+		let arrI = [user_name, password];
+		
 
+		let sqlS = 'select * from user WHERE user_name = ? ';
 	
+		let arrS = [user_name];
 	
-	
-	
-	
-	
-	
+		func.connPool(sqlS, arrS, (err, rows) => {
+			if (!rows.length) {
+				console.log("尚无该用户，注册")
+				func.connPool(sqlI, arrI, (err2, rows2) => {
+					let user = {
+						user_name: user_name
+					};
+					req.session.login = user;
+					res.json({
+						code: 200,
+						msg: '注册成功',
+						user: user
+					});
+				});
+			} else {
+				console.log("已存在该用户，直接登录")
+				let pass = rows[0].password;
+				if(password == pass) {
+					let user = {
+						user_id: rows[0].id,
+						user_name: rows[0].user_name,
+						role: rows[0].role,
+					};
+					req.session.login = user;
+					res.json({
+						code: 200,
+						msg: '登录成功',
+						user: user
+					});
+				} else {
+					res.json({
+						code: 400,
+						msg: '该用户已存在，可直接登录，但密码错误'
+					});
+				}
+			}
+		});
 
+			
+	},
+	
+	
+	
 };

@@ -10,8 +10,9 @@
             </el-form-item>
 
             <el-form-item>
-                <el-button type="primary" @click="submitForm('loginForm')">提交</el-button>
+                <el-button type="primary" @click="submitForm('loginForm,1')">提交</el-button>
                 <el-button @click="resetForm('loginForm')">重置</el-button>
+                <el-button type="info" @click="submitForm('loginForm,2')" v-type="2">注册</el-button>
             </el-form-item>
         </el-form>
     </div>
@@ -36,19 +37,35 @@
         },
         
         methods: {
-            submitForm(formName) {
+            submitForm(param) {
+                let paramArr = param.split(",");
+                let formName = paramArr[0];
+                let type = paramArr[1];
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        this.func.ajaxPost(this.api.userLogin, this.loginForm, res => {
+                        if(type != 2) {
+                            this.func.ajaxPost(this.api.userLogin, this.loginForm, res => {
 
-                            if (res.data.code === 200) {
-                                this.$store.commit('user', res.data.user);
-                                this.$message.success('登陆成功');
-                                this.$router.push('/admin');
+                                if (res.data.code === 200) {
+                                    this.$store.commit('user', res.data.user);
+                                    this.$message.success('登陆成功');
+                                    this.$router.push('/admin');
 
-                            }
+                                }
 
-                        });
+                            });
+                        } else {
+                            this.func.ajaxPost(this.api.userRegister, this.loginForm, res => {
+
+                                if (res.data.code === 200) {
+                                    this.$store.commit('user', res.data.user);
+                                    this.$message.success('注册成功');
+                                    this.$router.push('/admin');
+
+                                }
+
+                            });
+                        }
 
                     }
                 });

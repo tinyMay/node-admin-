@@ -11,7 +11,7 @@ CREATE TABLE `user` (
   `password` varchar(100) NOT NULL DEFAULT '',
   `role` tinyint(3) NOT NULL DEFAULT '0' COMMENT '用户权限',
    `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-   `update_time` timestamp COMMENT '更新时间',
+   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
 
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`) USING BTREE
@@ -26,7 +26,7 @@ DROP TABLE IF EXISTS `members`;
 CREATE TABLE `members` (
   `members_id` int(11) NOT NULL AUTO_INCREMENT,
    `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-   `update_time` timestamp COMMENT '更新时间',
+   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
   `member_name` varchar(50) NOT NULL DEFAULT 'noname',
   `member_phone` varchar(100) NOT NULL DEFAULT '',
   `remarks` varchar(100) NOT NULL DEFAULT '',
@@ -47,7 +47,7 @@ DROP TABLE IF EXISTS `goodstype`;
 CREATE TABLE `goodstype` (
   `goodstype` int(11) NOT NULL AUTO_INCREMENT,
    `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-   `update_time` timestamp COMMENT '更新时间',
+   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
   `goods_typename` varchar(100) NOT NULL DEFAULT '',
   `remarks` varchar(100) NOT NULL DEFAULT '',
   PRIMARY KEY (`goodstype`),
@@ -59,7 +59,7 @@ DROP TABLE IF EXISTS `goods`;
 CREATE TABLE `goods` (
   `goods_id` int(11) NOT NULL AUTO_INCREMENT,
    `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-   `update_time` timestamp COMMENT '更新时间',
+   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
   `goods_name` varchar(50) NOT NULL DEFAULT 'noname',
   `goods_price` float(10,2) NOT NULL DEFAULT '0.00',
   `inventory` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '库存',
@@ -78,7 +78,7 @@ DROP TABLE IF EXISTS `orders`;
 CREATE TABLE `orders` (
   `order_id` int(11) NOT NULL AUTO_INCREMENT,
    `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-   `update_time` timestamp COMMENT '更新时间',
+   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
  `goods_id` varchar(50) NOT NULL DEFAULT '',
  `goods_name` varchar(50) NOT NULL DEFAULT 'noname',
   `goods_price` float(10,2) NOT NULL DEFAULT '0.00',

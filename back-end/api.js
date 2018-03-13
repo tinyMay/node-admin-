@@ -12,6 +12,8 @@ module.exports = {
     userLogout: path + '/user/logout',
     userAutoLogin: path + '/user/auto-login',
     userChangeRole: path + '/user/change-role',
+
+    userRegister: path + '/user/register',
 	
 	
 	
