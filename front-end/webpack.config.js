@@ -7,7 +7,7 @@ let glob = require('glob');
 // js名必须与html的fileName对应
 let entry = (() => {
 	let obj = {};
-	getEntry('src/views/pages/*.pug').forEach(fileName => {
+	getEntry('src/views/mods/*.pug').forEach(fileName => {
 		obj[fileName] = './src/js/' + fileName + '.js';
 	});
 
@@ -125,25 +125,24 @@ if (process.env.NODE_ENV === 'production') {
 				NODE_ENV: '"production"'
 			}
 		}),
-        new webpack.optimize.UglifyJsPlugin({
-			sourceMap: true,
-			compress: {
-				warnings: false
-			}
-		}),
+  //       new webpack.optimize.UglifyJsPlugin({
+		// 	sourceMap: true,
+		// 	compress: {
+		// 		warnings: false
+		// 	}
+		// }),
         new webpack.LoaderOptionsPlugin({
 			minimize: true
 		})
     ]);
 }
 
-console.log(1);
 
 // 自动生存htmlPlugins
-getEntry('src/views/pages/*.pug').forEach(fileName => {
+getEntry('src/views/mods/*.pug').forEach(fileName => {
 	let conf = {
 		filename: fileName + '.html', //生成的html存放路径，相对于path
-		template: 'src/views/pages/' + fileName + '.pug', //html模板路径
+		template: 'src/views/mods/' + fileName + '.pug', //html模板路径
 		inject: true,
 		hash: true,
 		minify: {
@@ -155,7 +154,6 @@ getEntry('src/views/pages/*.pug').forEach(fileName => {
 	module.exports.plugins.push(new HtmlWebpackPlugin(conf));
 
 
-	console.log(2);
 });
 
 // 获取文件名函数

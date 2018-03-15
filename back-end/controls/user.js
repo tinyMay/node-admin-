@@ -88,7 +88,7 @@ module.exports = {
 		});
 	},
 	// 批量删除
-		deleteMulti(req, res) {
+	deleteMulti(req, res) {
 		let id = req.body.id;
 		let sql = 'DELETE  from user WHERE id in ?';
 		let arr = [[id]];
@@ -139,9 +139,6 @@ module.exports = {
 					});
 				}
 		});
-		
-		
-		
 		
 	},
 	// 自动登录

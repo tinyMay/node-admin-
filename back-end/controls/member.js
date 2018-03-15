@@ -26,7 +26,9 @@ module.exports = {
 		  let sql, arr ,endLimit ,startLimit;
 		
 		console.log(req.body.cur_page);
-	
+		console.log("req.session");
+					console.log(req.session);
+					console.log(req.session.login)
 			
 			 endLimit = cur_page *10;
 			 startLimit =  endLimit -10;

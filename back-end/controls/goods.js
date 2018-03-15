@@ -1,20 +1,8 @@
 let sql = require('../sql/sql');
-let moment = require('moment');
+let comFun = require('../utils/comFun');
 let func = require('../sql/func');
 let path = require('path');
-
-
-
-
-function formatData(rows) {
-	return rows.map(row => {
-		let date = moment(row.create_time).format('YYYY-MM-DD');
-		return Object.assign({}, row, {
-			create_time: date
-		});
-	});
-}
-
+let { formatData } = comFun;
 
 module.exports = {
 	// 获取商品列表
