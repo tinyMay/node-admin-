@@ -1,7 +1,6 @@
 <template>
     <div class='admin'>
         <my-header></my-header>
-
         <div class='admin-main'>
             <div class='admin-main-right'>
                 <el-menu theme="dark" class="top-menu">
@@ -66,12 +65,10 @@
 
 <script>
 	import Header from './common/header.vue';
-
 	export default {
 		name: 'admin',
-
 		components: {
-			'my-header': Header,
+			'my-header': Header
 		},
 
 		computed: {
@@ -92,6 +89,11 @@
 
 			}
 		},
+		data() {
+			return {
+				
+			}
+		}
 
 	}
 
