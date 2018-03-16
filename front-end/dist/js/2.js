@@ -5,9 +5,9 @@ webpackJsonp([2],{
 
 var Component = __webpack_require__(81)(
   /* script */
-  __webpack_require__(207),
+  __webpack_require__(203),
   /* template */
-  __webpack_require__(220),
+  __webpack_require__(217),
   /* styles */
   null,
   /* scopeId */
@@ -21,7 +21,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 207:
+/***/ 203:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -98,7 +98,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 220:
+/***/ 217:
 /***/ (function(module, exports) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
