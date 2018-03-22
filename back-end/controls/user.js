@@ -26,21 +26,12 @@ function formatData(rows) {
 module.exports = {
 	fetchAll(req, res) {
 		
-		 let cur_page =req.body.cur_page;
-		  let sql, arr ,endLimit ,startLimit;
-		
-		
-	
-				 endLimit = cur_page *10;
-			 startLimit =  endLimit -10;
-			
-			
-				sql ='select * from user  limit ?, ?';
-				   arr = [startLimit , endLimit];
-			
-		
-		
-		
+		let cur_page =req.body.cur_page;
+		let sql, arr ,endLimit ,startLimit;
+		endLimit = cur_page *10;
+		startLimit =  endLimit -10;
+		sql ='select * from user  limit ?, ?';
+	   	arr = [startLimit , endLimit];
 		func.connPool(sql, arr, (err, rows) => {
 			rows = formatData(rows);
 			res.json({
